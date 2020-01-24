@@ -13,7 +13,7 @@ zRandomized_tb = dynamo_table_randomize_azimuth (myTable);
 avg_Randomized = daverage(myData,'t', zRandomized_tb,'fc',1);
 
 %Save template and table
-dwrite(oaRandomized.average,[templateFolder '/<filename>_zRandomized.em']);
+dwrite(avg_Randomized.average,[templateFolder '/<filename>_zRandomized.em']);
 dwrite(zRandomized_tb, [tableFolder '/<filename>_zRandomized.tbl']);
 
 %Creating G01 alignment project
