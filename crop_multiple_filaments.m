@@ -7,10 +7,11 @@ for tomo = 1:length(o.models)   % loop over tomograms
     myTable{c}=m.grepTable(); %get table from model
     tomogram=m.cvolume.file; %get tomogram path
     box='180'; %define boxsize
-    Ntomo=tomogram(:,60:62); %get number of the tomogram
+    [filepath,filename,ext]=fileparts(tomogram); %break tomogram into parts
+    Ntomo=filename(:,1:7); %get number of the tomogram
     label=m.cvolume.catalogue.label; %label of the catalogue
-    myData=(['particles/' label '/bits_' Ntomo '_tube_' num2str(c) '_box_' box]); %Define output data for particles
-    dwrite(myTable{c},['table/' m.cvolume.catalogue.label '/bits_' tomogram(:,60:62) '_tube_' num2str(c) '.tbl']);
+    myData=(['particles/' label '/' Ntomo '_tube_' num2str(c) '_box_' box]); %Define output data for particles
+    dwrite(myTable{c},['table/' m.cvolume.catalogue.label '/' Ntomo '_tube_' num2str(c) '.tbl']);
     
     %Cropping particles
     dtcrop(tomogram,myTable{c},myData,box,'mw',5); 
@@ -23,7 +24,7 @@ for tomo = 1:length(o.models)   % loop over tomograms
     oaRand=daverage(myData,'t',tbRand,'fc',1,'mw',5); %average randomized particles
     
     %Saving files
-    dwrite(tbRand,['table/' m.cvolume.catalogue.label '/bits_' tomogram(:,60:62) '_tube_' num2str(c) '_Randomized.tbl']);
-    dwrite(oaRand.average,['template/' m.cvolume.catalogue.label '/bits_' tomogram(:,60:62) '_tube_' num2str(c) '_box_' box '.em']);
+    dwrite(tbRand,['table/' m.cvolume.catalogue.label '/' Ntomo '_tube_' num2str(c) '_Randomized.tbl']);
+    dwrite(oaRand.average,['template/' m.cvolume.catalogue.label '/' Ntomo '_tube_' num2str(c) '_box_' box '.em']);
     c=c+1;
 end
